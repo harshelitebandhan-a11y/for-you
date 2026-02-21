@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>Something Different</title>
+    <style>
+        .stack-card { transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-[#0f172a] min-h-screen flex items-center justify-center overflow-hidden font-sans">
+
+    <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+        <div class="absolute top-10 left-10 w-32 h-32 bg-rose-500 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-64 h-64 bg-blue-500 rounded-full blur-[100px]"></div>
+    </div>
+
+    <div class="relative z-10 text-center px-4">
+        <div id="cardFrame" class="floating stack-card group relative bg-white p-4 pb-12 shadow-2xl rounded-sm rotate-[-2deg] hover:rotate-0 cursor-pointer max-w-xs mx-auto">
+            
+            <div class="relative aspect-square overflow-hidden bg-gray-200">
+                <img src="WhatsApp Image 2026-02-21 at 4.48.55 PM.jpeg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                
+                <div id="overlay" class="absolute inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
+                    <p class="text-white font-mono text-sm tracking-widest uppercase">Tap to Unlock</p>
+                </div>
+            </div>
+
+            <div class="mt-6 font-serif text-2xl text-gray-700">
+               Specifically for you <span class="text-rose-500">✨</span>
+            </div>
+
+            <div class="absolute -top-4 -right-4 bg-rose-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                By Harsh for You
+            </div>
+        </div>
+
+        <div id="secretMessage" class="mt-8 opacity-0 translate-y-4 transition-all duration-1000">
+            <h1 class="text-4xl font-black text-white mb-2">You are the best</h1>
+            <p class="text-slate-400 text-lg">I’m pretty sure this screen isn't high-definition enough to capture how great you actually look</p>
+        </div>
+    </div>
+
+    <script>
+        const card = document.getElementById('cardFrame');
+        const message = document.getElementById('secretMessage');
+        let clicked = false;
+
+        card.addEventListener('click', () => {
+            if(!clicked) {
+                // Trigger High-End Confetti
+                const duration = 3 * 1000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 3,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#f43f5e', '#fb7185']
+                    });
+                    confetti({
+                        particleCount: 3,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#f43f5e', '#fb7185']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+
+                // Reveal hidden text
+                message.classList.remove('opacity-0', 'translate-y-4');
+                message.classList.add('opacity-100', 'translate-y-0');
+                
+                clicked = true;
+            }
+        });
+    </script>
+</body>
+</html>
